@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Footer.css';
 import { Link } from 'react-router-dom';
 
-const API_BASE = "http://127.0.0.1:8000"; // change when deployed
+const API_BASE = "https://ecopi-backend.onrender.com"; // change when deployed
 
 function Footer() {
   const [email, setEmail] = useState("");
