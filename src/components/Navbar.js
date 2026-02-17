@@ -11,12 +11,6 @@ const SEARCH_INDEX = [
       "methodology method formulas calculation assumptions ghg gwp refrigerant leakage scope 1 scope 2 scope 3 reporting emission factors factors",
   },
   {
-    title: "Services",
-    route: "/services",
-    keywords:
-      "services tools transport manufacturing materials reporting sustainability features breakdown categories",
-  },
-  {
     title: "Excel Editor",
     route: "/excel",
     keywords:
@@ -115,7 +109,7 @@ function Navbar() {
     setShowSearch(false);
     setQuery("");
     setResults([]);
-    closeMobileMenu(); // ✅ important: close menu + dropdowns after navigation
+    closeMobileMenu(); // important: close menu + dropdowns after navigation
   };
 
   const toggleTools = (e) => {
@@ -138,7 +132,7 @@ function Navbar() {
             <div className="logo-wrapper">
               <span className="logo-text">ECO-Pi</span>
 
-              {/* ✅ Minimal change: use PUBLIC_URL so it works on GitHub Pages too */}
+              {/* use PUBLIC_URL so it works on GitHub Pages too */}
               <img
                 src={`${process.env.PUBLIC_URL}/images/App_logo.svg`}
                 alt="ECO-Pi logo"
