@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ProfileView.css";
 
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "https://ecopi-backend.onrender.com";
 
 function ProfileView() {
   const { name } = useParams();

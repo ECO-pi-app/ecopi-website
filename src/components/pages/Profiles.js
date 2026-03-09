@@ -3,7 +3,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./Profiles.css";
 import { FaPen, FaTrash, FaFolderOpen } from "react-icons/fa";
 
-const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "https://ecopi-backend.onrender.com";
+
 
 function Profiles() {
   const [profiles, setProfiles] = useState([]);
