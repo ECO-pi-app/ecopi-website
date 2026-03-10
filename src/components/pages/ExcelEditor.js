@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HotTable } from "@handsontable/react";
 
+import "handsontable/dist/handsontable.full.min.css";
+import "handsontable/styles/ht-theme-main.min.css";
 import "handsontable/styles/handsontable.css";
 import "handsontable/styles/ht-theme-main.css";
 
