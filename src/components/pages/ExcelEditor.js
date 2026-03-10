@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HotTable } from "@handsontable/react";
 
+// Only the main Handsontable CSS is needed now
 import "handsontable/dist/handsontable.full.min.css";
-import "handsontable/styles/ht-theme-main.min.css";
-import "handsontable/styles/handsontable.css";
-import "handsontable/styles/ht-theme-main.css";
 
+// Your custom overrides
 import "./ExcelEditor.css";
 
 const API = "https://ecopi-backend.onrender.com";
@@ -22,6 +21,7 @@ export default function ExcelEditor() {
     sheetRef.current = sheet;
   }, [sheet]);
 
+  // Fetch sheet list
   useEffect(() => {
     fetch(`${API}/excel/sheets`)
       .then((r) => r.json())
@@ -32,6 +32,7 @@ export default function ExcelEditor() {
       .catch(console.error);
   }, []);
 
+  // Fetch sheet data when sheet changes
   useEffect(() => {
     if (!sheet) return;
 
@@ -47,6 +48,7 @@ export default function ExcelEditor() {
     }
   }, [sheet]);
 
+  // Queue updates to send in batches
   function queueUpdates(changes) {
     pending.current.push(...changes);
 
@@ -78,7 +80,6 @@ export default function ExcelEditor() {
     <div className="excelPage">
       <div className="excelTop">
         <h1>Excel Editor</h1>
-
         <div className="excelControls">
           <label htmlFor="sheet-select">Sheet</label>
           <select
@@ -97,7 +98,6 @@ export default function ExcelEditor() {
 
       <div className="excel-table-wrap">
         <HotTable
-          className="hot"
           data={data}
           rowHeaders={true}
           colHeaders={true}
