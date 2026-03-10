@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/ecopi-website/static/css/main.8293dfec.css",
-    "main.js": "/ecopi-website/static/js/main.97a6b374.js",
-    "static/media/fa-solid-900.woff2": "/ecopi-website/static/media/fa-solid-900.8ae0d37556ff1e685de2.woff2",
-    "static/media/fa-brands-400.woff2": "/ecopi-website/static/media/fa-brands-400.1c5c7716b05754cb4eab.woff2",
-    "static/media/fa-regular-400.woff2": "/ecopi-website/static/media/fa-regular-400.6f05ca9ab7b5345dbc07.woff2",
-    "static/media/fa-v4compatibility.woff2": "/ecopi-website/static/media/fa-v4compatibility.e4340c52a50e727c6afa.woff2",
+    "main.css": "/ecopi-website/static/css/main.8a24b0ac.css",
+    "main.js": "/ecopi-website/static/js/main.28afce41.js",
+    "static/media/fa-solid-900.woff2": "/ecopi-website/static/media/fa-solid-900.ce9a3fa740bd60b4ac3b.woff2",
+    "static/media/fa-brands-400.woff2": "/ecopi-website/static/media/fa-brands-400.f276979f97f1cf375d23.woff2",
+    "static/media/fa-regular-400.woff2": "/ecopi-website/static/media/fa-regular-400.cfbad32c79d9dda6af4a.woff2",
+    "static/media/fa-v4compatibility.woff2": "/ecopi-website/static/media/fa-v4compatibility.296da06936a3373940c8.woff2",
     "index.html": "/ecopi-website/index.html",
-    "main.8293dfec.css.map": "/ecopi-website/static/css/main.8293dfec.css.map",
-    "main.97a6b374.js.map": "/ecopi-website/static/js/main.97a6b374.js.map"
+    "main.8a24b0ac.css.map": "/ecopi-website/static/css/main.8a24b0ac.css.map",
+    "main.28afce41.js.map": "/ecopi-website/static/js/main.28afce41.js.map"
   },
   "entrypoints": [
-    "static/css/main.8293dfec.css",
-    "static/js/main.97a6b374.js"
+    "static/css/main.8a24b0ac.css",
+    "static/js/main.28afce41.js"
   ]
 }
