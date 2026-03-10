@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HotTable } from "@handsontable/react";
-import "handsontable/styles/handsontable.min.css";
+
+import "handsontable/styles/handsontable.css";
+import "handsontable/styles/ht-theme-main.css";
+
 import "./ExcelEditor.css";
 
 const API = "https://ecopi-backend.onrender.com";
