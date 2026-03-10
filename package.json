@@ -2,7 +2,7 @@
   "name": "react-website",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://eco-pi-app.github.io/ecopi-website",
+  "homepage": "https://Lohithroshan45.github.io/ecopi-website",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
     "@handsontable/react": "^16.2.0",
@@ -10,7 +10,6 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.1",
     "@testing-library/user-event": "^13.5.0",
-    "gh-pages": "^6.3.0",
     "handsontable": "^16.2.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -46,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
