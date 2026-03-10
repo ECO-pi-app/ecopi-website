@@ -39,7 +39,7 @@ function SignUp() {
       if (!res.ok) throw new Error(data.detail || "Signup failed");
 
       // after signup -> go sign in
-      window.location.href = "/sign-in";
+      window.location.href = `${process.env.PUBLIC_URL}/sign-in`;
     } catch (e) {
       setErr(e.message);
     } finally {
@@ -91,7 +91,9 @@ function SignUp() {
           </form>
 
           <div className="signup-footer">
-            <a href="/sign-in">Already have an account? Sign in</a>
+            <a href={`${process.env.PUBLIC_URL}/sign-in`}>
+              Already have an account? Sign in
+            </a>
           </div>
         </div>
       </div>

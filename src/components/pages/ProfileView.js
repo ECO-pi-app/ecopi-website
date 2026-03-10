@@ -15,7 +15,7 @@ function ProfileView() {
     const username = localStorage.getItem("sphere_username");
 
     if (!loggedIn || !username) {
-      window.location.href = "/sign-in";
+      window.location.href = `${process.env.PUBLIC_URL}/sign-in`;
       return;
     }
 
@@ -48,7 +48,7 @@ function ProfileView() {
               <p className="pview-desc muted">No description.</p>
             )}
           </div>
-          <a className="pview-back" href="/profiles">Back</a>
+          <a className="pview-back" href={`${process.env.PUBLIC_URL}/profiles`}>Back</a>
         </div>
 
         {loading && <p className="muted">Loading...</p>}

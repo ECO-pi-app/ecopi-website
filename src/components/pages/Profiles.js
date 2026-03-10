@@ -17,7 +17,7 @@ function Profiles() {
 
   useEffect(() => {
     if (!loggedIn || !username) {
-      window.location.href = "/sign-in";
+      window.location.href = `${process.env.PUBLIC_URL}/sign-in`;
       return;
     }
 
@@ -99,7 +99,7 @@ function Profiles() {
             </p>
           </div>
 
-          <a className="profiles-back" href="/dashboard">
+          <a className="profiles-back" href={`${process.env.PUBLIC_URL}/dashboard`}>
             Back
           </a>
         </div>
@@ -129,7 +129,7 @@ function Profiles() {
                 <div className="profiles-actions">
                     <a
                         className="icon-btn"
-                        href={`/profiles/${encodeURIComponent(name)}`}
+                        href={`${process.env.PUBLIC_URL}/profiles/${encodeURIComponent(name)}`}
                         title="Open profile"
                         aria-label="Open profile"
                     >
