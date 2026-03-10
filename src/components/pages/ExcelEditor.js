@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HotTable } from "@handsontable/react";
 import "handsontable/styles/handsontable.min.css";
-import "handsontable/styles/ht-theme-main.min.css";
 import "./ExcelEditor.css";
 
 const API = "https://ecopi-backend.onrender.com";
@@ -18,7 +17,6 @@ export default function ExcelEditor() {
     sheetRef.current = sheet;
   }, [sheet]);
 
-  // load sheet names
   useEffect(() => {
     fetch(`${API}/excel/sheets`)
       .then((r) => r.json())
@@ -29,7 +27,6 @@ export default function ExcelEditor() {
       .catch(console.error);
   }, []);
 
-  // load selected sheet data
   useEffect(() => {
     if (!sheet) return;
 
@@ -38,7 +35,6 @@ export default function ExcelEditor() {
       .then((j) => setData(j.rows || [[]]))
       .catch(console.error);
 
-    // clear pending updates when switching sheets
     pending.current = [];
     if (timer.current) {
       clearTimeout(timer.current);
@@ -79,8 +75,12 @@ export default function ExcelEditor() {
         <h1>Excel Editor</h1>
 
         <div className="excelControls">
-          <label>Sheet</label>
-          <select value={sheet} onChange={(e) => setSheet(e.target.value)}>
+          <label htmlFor="sheet-select">Sheet</label>
+          <select
+            id="sheet-select"
+            value={sheet}
+            onChange={(e) => setSheet(e.target.value)}
+          >
             {sheets.map((s) => (
               <option key={s} value={s}>
                 {s}
@@ -90,8 +90,9 @@ export default function ExcelEditor() {
         </div>
       </div>
 
-      <div className="ht-theme-main">
+      <div className="excel-table-wrap">
         <HotTable
+          className="hot"
           data={data}
           rowHeaders={true}
           colHeaders={true}
@@ -104,14 +105,12 @@ export default function ExcelEditor() {
           manualRowResize={true}
           colWidths={160}
           wordWrap={true}
-
           cells={(row, col) => {
             if (row === 0 && col === 0) return { className: "excel-title-cell" };
             if (row === 0) return { className: "excel-header-row" };
             if (col === 0) return { className: "excel-title-col" };
             return {};
           }}
-
           afterChange={(changes, source) => {
             if (!changes || source === "loadData") return;
 
