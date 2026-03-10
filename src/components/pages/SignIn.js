@@ -40,7 +40,7 @@ function SignIn() {
       localStorage.setItem("sphere_profiles", JSON.stringify(data.profiles || []));
 
       // go to page after sign in
-      window.location.href = "/dashboard"; // change if your route is different
+      window.location.href = `${process.env.PUBLIC_URL}/dashboard`; // change if your route is different
     } catch (e) {
       setErr(e.message);
     } finally {
@@ -84,8 +84,8 @@ function SignIn() {
           </form>
 
           <div className="signin-footer">
-            <a href="/">Forgotten password?</a>
-            <a href="/sign-up">Create account</a>
+            <a href={`${process.env.PUBLIC_URL}/`}>Forgotten password?</a>
+            <a href={`${process.env.PUBLIC_URL}/sign-up`}>Create account</a>
           </div>
         </div>
       </div>

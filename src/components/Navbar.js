@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 import { Link, useHistory } from "react-router-dom";
 
-/* 🔹 MOVE SEARCH INDEX OUTSIDE COMPONENT */
+/*  MOVE SEARCH INDEX OUTSIDE COMPONENT */
 const SEARCH_INDEX = [
   {
     title: "Methodology",
