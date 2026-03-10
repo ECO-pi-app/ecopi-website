@@ -1,0 +1,159 @@
+[1mdiff --git a/package.json b/package.json[m
+[1mindex f78335d..af16065 100644[m
+[1m--- a/package.json[m
+[1m+++ b/package.json[m
+[36m@@ -2,7 +2,11 @@[m
+   "name": "react-website",[m
+   "version": "0.1.0",[m
+   "private": true,[m
+[32m+[m[32m<<<<<<< HEAD[m
+   "homepage": "https://Lohithroshan45.github.io/ecopi-website",[m
+[32m+[m[32m=======[m
+[32m+[m[32m  "homepage": "https://eco-pi-app.github.io/ecopi-website",[m
+[32m+[m[32m>>>>>>> d049d6d79f58a84cad33edc67f5af77307f2b818[m
+   "dependencies": {[m
+     "@fortawesome/fontawesome-free": "^7.1.0",[m
+     "@handsontable/react": "^16.2.0",[m
+[1mdiff --git a/src/App.js b/src/App.js[m
+[1mindex 655ee01..5cf42fc 100644[m
+[1m--- a/src/App.js[m
+[1m+++ b/src/App.js[m
+[36m@@ -1,6 +1,6 @@[m
+ import React from 'react';[m
+ import Navbar from './components/Navbar';[m
+[31m-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';[m
+[32m+[m[32mimport { HashRouter as Router, Switch, Route } from 'react-router-dom';[m
+ import './App.css';[m
+ import Home from './components/pages/Home';[m
+ import About_us from './components/pages/About_us';[m
+[36m@@ -15,8 +15,6 @@[m [mimport HowItWorks from './components/pages/HowItWorks';[m
+ import ExcelEditor from "./components/pages/ExcelEditor";[m
+ import Support from './components/pages/Support';[m
+ [m
+[31m-[m
+[31m-[m
+ function App() {[m
+   return ([m
+     <>[m
+[36m@@ -41,5 +39,4 @@[m [mfunction App() {[m
+   );[m
+ }[m
+ [m
+[31m-export default App;[m
+[31m-[m
+[32m+[m[32mexport default App;[m
+\ No newline at end of file[m
+[1mdiff --git a/src/components/Navbar.js b/src/components/Navbar.js[m
+[1mindex 9559a59..b1d9cfb 100644[m
+[1m--- a/src/components/Navbar.js[m
+[1m+++ b/src/components/Navbar.js[m
+[36m@@ -2,7 +2,7 @@[m [mimport React, { useState, useEffect } from "react";[m
+ import "./Navbar.css";[m
+ import { Link, useHistory } from "react-router-dom";[m
+ [m
+[31m-/* 🔹 MOVE SEARCH INDEX OUTSIDE COMPONENT */[m
+[32m+[m[32m/*  MOVE SEARCH INDEX OUTSIDE COMPONENT */[m
+ const SEARCH_INDEX = [[m
+   {[m
+     title: "Methodology",[m
+[1mdiff --git a/src/components/pages/ProfileView.js b/src/components/pages/ProfileView.js[m
+[1mindex c7747c9..4baafdb 100644[m
+[1m--- a/src/components/pages/ProfileView.js[m
+[1m+++ b/src/components/pages/ProfileView.js[m
+[36m@@ -15,7 +15,7 @@[m [mfunction ProfileView() {[m
+     const username = localStorage.getItem("sphere_username");[m
+ [m
+     if (!loggedIn || !username) {[m
+[31m-      window.location.href = "/sign-in";[m
+[32m+[m[32m      window.location.href = `${process.env.PUBLIC_URL}/sign-in`;[m
+       return;[m
+     }[m
+ [m
+[36m@@ -48,7 +48,7 @@[m [mfunction ProfileView() {[m
+               <p className="pview-desc muted">No description.</p>[m
+             )}[m
+           </div>[m
+[31m-          <a className="pview-back" href="/profiles">Back</a>[m
+[32m+[m[32m          <a className="pview-back" href={`${process.env.PUBLIC_URL}/profiles`}>Back</a>[m
+         </div>[m
+ [m
+         {loading && <p className="muted">Loading...</p>}[m
+[1mdiff --git a/src/components/pages/Profiles.js b/src/components/pages/Profiles.js[m
+[1mindex e01e51c..9959449 100644[m
+[1m--- a/src/components/pages/Profiles.js[m
+[1m+++ b/src/components/pages/Profiles.js[m
+[36m@@ -17,7 +17,7 @@[m [mfunction Profiles() {[m
+ [m
+   useEffect(() => {[m
+     if (!loggedIn || !username) {[m
+[31m-      window.location.href = "/sign-in";[m
+[32m+[m[32m      window.location.href = `${process.env.PUBLIC_URL}/sign-in`;[m
+       return;[m
+     }[m
+ [m
+[36m@@ -99,7 +99,7 @@[m [mfunction Profiles() {[m
+             </p>[m
+           </div>[m
+ [m
+[31m-          <a className="profiles-back" href="/dashboard">[m
+[32m+[m[32m          <a className="profiles-back" href={`${process.env.PUBLIC_URL}/dashboard`}>[m
+             Back[m
+           </a>[m
+         </div>[m
+[36m@@ -129,7 +129,7 @@[m [mfunction Profiles() {[m
+                 <div className="profiles-actions">[m
+                     <a[m
+                         className="icon-btn"[m
+[31m-                        href={`/profiles/${encodeURIComponent(name)}`}[m
+[32m+[m[32m                        href={`${process.env.PUBLIC_URL}/profiles/${encodeURIComponent(name)}`}[m
+                         title="Open profile"[m
+                         aria-label="Open profile"[m
+                     >[m
+[1mdiff --git a/src/components/pages/SignIn.js b/src/components/pages/SignIn.js[m
+[1mindex 40c6185..893aff8 100644[m
+[1m--- a/src/components/pages/SignIn.js[m
+[1m+++ b/src/components/pages/SignIn.js[m
+[36m@@ -40,7 +40,7 @@[m [mfunction SignIn() {[m
+       localStorage.setItem("sphere_profiles", JSON.stringify(data.profiles || []));[m
+ [m
+       // go to page after sign in[m
+[31m-      window.location.href = "/dashboard"; // change if your route is different[m
+[32m+[m[32m      window.location.href = `${process.env.PUBLIC_URL}/dashboard`; // change if your route is different[m
+     } catch (e) {[m
+       setErr(e.message);[m
+     } finally {[m
+[36m@@ -84,8 +84,8 @@[m [mfunction SignIn() {[m
+           </form>[m
+ [m
+           <div className="signin-footer">[m
+[31m-            <a href="/">Forgotten password?</a>[m
+[31m-            <a href="/sign-up">Create account</a>[m
+[32m+[m[32m            <a href={`${process.env.PUBLIC_URL}/`}>Forgotten password?</a>[m
+[32m+[m[32m            <a href={`${process.env.PUBLIC_URL}/sign-up`}>Create account</a>[m
+           </div>[m
+         </div>[m
+       </div>[m
+[1mdiff --git a/src/components/pages/SignUp.js b/src/components/pages/SignUp.js[m
+[1mindex d0be6d1..f1cdcd6 100644[m
+[1m--- a/src/components/pages/SignUp.js[m
+[1m+++ b/src/components/pages/SignUp.js[m
+[36m@@ -39,7 +39,7 @@[m [mfunction SignUp() {[m
+       if (!res.ok) throw new Error(data.detail || "Signup failed");[m
+ [m
+       // after signup -> go sign in[m
+[31m-      window.location.href = "/sign-in";[m
+[32m+[m[32m      window.location.href = `${process.env.PUBLIC_URL}/sign-in`;[m
+     } catch (e) {[m
+       setErr(e.message);[m
+     } finally {[m
+[36m@@ -91,7 +91,9 @@[m [mfunction SignUp() {[m
+           </form>[m
+ [m
+           <div className="signup-footer">[m
+[31m-            <a href="/sign-in">Already have an account? Sign in</a>[m
+[32m+[m[32m            <a href={`${process.env.PUBLIC_URL}/sign-in`}>[m
+[32m+[m[32m              Already have an account? Sign in[m
+[32m+[m[32m            </a>[m
+           </div>[m
+         </div>[m
+       </div>[m

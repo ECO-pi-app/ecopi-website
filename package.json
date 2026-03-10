@@ -2,7 +2,7 @@
   "name": "react-website",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://Lohithroshan45.github.io/ecopi-website",
+  "homepage": "https://eco-pi-app.github.io/ecopi-website",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
     "@handsontable/react": "^16.2.0",

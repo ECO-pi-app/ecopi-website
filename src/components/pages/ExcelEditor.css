@@ -36,3 +36,12 @@
   font-weight: 800 !important;
 }
 
+.excelPage {
+  padding: 18px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.handsontable {
+  width: 100% !important;
+}
