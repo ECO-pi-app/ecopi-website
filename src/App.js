@@ -15,9 +15,8 @@ import HowItWorks from './components/pages/HowItWorks';
 import ExcelEditor from "./components/pages/ExcelEditor";
 import Support from './components/pages/Support';
 
-import "handsontable/dist/handsontable.min.css";
-import "handsontable/dist/handsontable.full.min.css"; 
-import './components/pages/ExcelEditor.css';   
+import 'handsontable/dist/handsontable.full.min.css';
+import 'handsontable/dist/handsontable.min.css';
 
 function App() {
   return (
