@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./SignUp.css";
 
 const API_BASE = "https://ecopi-backend.onrender.com";
 
