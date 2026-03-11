@@ -168,8 +168,7 @@ body {
   justify-content: center;
   padding: 40px 20px;
   background:
-    linear-gradient(rgba(248, 248, 248, 0.9), rgba(248, 248, 248, 0.9)),
-    url("/images/Leaves.png");
+    linear-gradient(rgba(248, 248, 248, 0.9), rgba(248, 248, 248, 0.9));
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
