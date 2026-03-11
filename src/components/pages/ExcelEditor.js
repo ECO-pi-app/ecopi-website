@@ -82,63 +82,60 @@ export default function ExcelEditor() {
   };
 
   return (
-    <div className="page">
-      <div className="page__container">
-        <div className="excel-header">
-          <h1>Excel Editor</h1>
-          <p className="excel-subtitle">
-            View and edit worksheet data directly from the ECO-Pi emission workbook.
-          </p>
+    <div className="excel-page">
+      <h1 className="excel-title">Excel Editor</h1>
+      <p className="excel-subtitle">
+        View and edit worksheet data directly from the ECO-Pi emission workbook.
+      </p>
+
+      <div className="excel-editor-card">
+        <div className="excel-sheet-select">
+          <label htmlFor="sheet-select">Sheet</label>
+          <select
+            id="sheet-select"
+            value={sheet}
+            onChange={(e) => setSheet(e.target.value)}
+          >
+            {sheets.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div className="page__card">
-          <div className="excel-toolbar">
-            <label className="page__label" htmlFor="sheet-select">Sheet</label>
-            <select
-              id="sheet-select"
-              className="page__input excel-select"
-              value={sheet}
-              onChange={(e) => setSheet(e.target.value)}
-            >
-              {sheets.map((s) => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-          </div>
+        <div className="excel-table-wrap">
+          <HotTable
+            data={data || [[]]}
+            rowHeaders
+            colHeaders
+            width="100%"
+            height="75vh"
+            licenseKey="non-commercial-and-evaluation"
+            stretchH="all"
+            autoColumnSize={{ useHeaders: true }}
+            manualColumnResize
+            manualRowResize
+            colWidths="auto"
+            wordWrap
+            cells={(row, col) => {
+              if (row === 0 && col === 0) return { className: "excel-title-cell" };
+              if (row === 0) return { className: "excel-header-row" };
+              if (col === 0) return { className: "excel-title-col" };
+              return {};
+            }}
+            afterChange={(changes, source) => {
+              if (!changes || source === "loadData") return;
 
-          <div className="excel-table-wrap">
-            <HotTable
-              data={data || [[]]}
-              rowHeaders
-              colHeaders
-              width="100%"
-              height="75vh"
-              licenseKey="non-commercial-and-evaluation"
-              stretchH="all"
-              autoColumnSize={{ useHeaders: true }}
-              manualColumnResize
-              manualRowResize
-              colWidths="auto"
-              wordWrap
-              cells={(row, col) => {
-                if (row === 0 && col === 0) return { className: "excel-title-cell" };
-                if (row === 0) return { className: "excel-header-row" };
-                if (col === 0) return { className: "excel-title-col" };
-                return {};
-              }}
-              afterChange={(changes, source) => {
-                if (!changes || source === "loadData") return;
+              const patches = changes.map(([row, col, oldVal, newVal]) => ({
+                r: row + 1,
+                c: col + 1,
+                v: newVal ?? "",
+              }));
 
-                const patches = changes.map(([row, col, oldVal, newVal]) => ({
-                  r: row + 1,
-                  c: col + 1,
-                  v: newVal ?? "",
-                }));
-
-                queueUpdates(patches);
-              }}
-            />
-          </div>
+              queueUpdates(patches);
+            }}
+          />
         </div>
       </div>
     </div>
