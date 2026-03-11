@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HotTable } from "@handsontable/react";
 
-// Handsontable CSS (must be at top)
 import "handsontable/dist/handsontable.min.css";
 import "handsontable/dist/handsontable.full.min.css";
-
-// Custom overrides
-import "./ExcelEditor.css";
+import "../../App.css";
 
 const API = "https://ecopi-backend.onrender.com";
 
@@ -15,17 +12,14 @@ export default function ExcelEditor() {
   const [sheet, setSheet] = useState("");
   const [data, setData] = useState([[]]);
 
-  // Pending changes batching
   const pending = useRef([]);
   const timer = useRef(null);
   const sheetRef = useRef(sheet);
 
-  // Keep ref updated for async fetches
   useEffect(() => {
     sheetRef.current = sheet;
   }, [sheet]);
 
-  // Fetch sheets list once
   useEffect(() => {
     fetch(`${API}/excel/sheets`)
       .then((res) => res.json())
@@ -37,16 +31,17 @@ export default function ExcelEditor() {
       .catch(console.error);
   }, []);
 
-  // Fetch sheet data whenever sheet changes
   useEffect(() => {
-    if (!sheet) return setData([[]]);
+    if (!sheet) {
+      setData([[]]);
+      return;
+    }
 
     fetch(`${API}/excel/sheet/${encodeURIComponent(sheet)}?max_rows=200&max_cols=50`)
       .then((res) => res.json())
       .then((json) => setData(json.rows?.length ? json.rows : [[]]))
       .catch(console.error);
 
-    // Reset batching
     pending.current = [];
     if (timer.current) {
       clearTimeout(timer.current);
@@ -54,7 +49,6 @@ export default function ExcelEditor() {
     }
   }, [sheet]);
 
-  // Queue updates to send to backend in batches
   const queueUpdates = (changes) => {
     pending.current.push(...changes);
 
@@ -88,55 +82,64 @@ export default function ExcelEditor() {
   };
 
   return (
-    <div className="excelPage">
-      <div className="excelTop">
-        <h1>Excel Editor</h1>
-        <div className="excelControls">
-          <label htmlFor="sheet-select">Sheet</label>
-          <select
-            id="sheet-select"
-            value={sheet}
-            onChange={(e) => setSheet(e.target.value)}
-          >
-            {sheets.map((s) => (
-              <option key={s} value={s}>{s}</option>
-            ))}
-          </select>
+    <div className="page">
+      <div className="page__container">
+        <div className="excel-header">
+          <h1>Excel Editor</h1>
+          <p className="excel-subtitle">
+            View and edit worksheet data directly from the ECO-Pi emission workbook.
+          </p>
         </div>
-      </div>
 
-      <div className="excel-table-wrap">
-        <HotTable
-          data={data || [[]]} // always fallback to empty array
-          rowHeaders
-          colHeaders
-          width="100%"
-          height="75vh"
-          licenseKey="non-commercial-and-evaluation"
-          stretchH="all"
-          autoColumnSize={{ useHeaders: true }}
-          manualColumnResize
-          manualRowResize
-          colWidths="auto"
-          wordWrap
-          cells={(row, col) => {
-            if (row === 0 && col === 0) return { className: "excel-title-cell" };
-            if (row === 0) return { className: "excel-header-row" };
-            if (col === 0) return { className: "excel-title-col" };
-            return {};
-          }}
-          afterChange={(changes, source) => {
-            if (!changes || source === "loadData") return;
+        <div className="page__card">
+          <div className="excel-toolbar">
+            <label className="page__label" htmlFor="sheet-select">Sheet</label>
+            <select
+              id="sheet-select"
+              className="page__input excel-select"
+              value={sheet}
+              onChange={(e) => setSheet(e.target.value)}
+            >
+              {sheets.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
 
-            const patches = changes.map(([row, col, oldVal, newVal]) => ({
-              r: row + 1,
-              c: col + 1,
-              v: newVal ?? "",
-            }));
+          <div className="excel-table-wrap">
+            <HotTable
+              data={data || [[]]}
+              rowHeaders
+              colHeaders
+              width="100%"
+              height="75vh"
+              licenseKey="non-commercial-and-evaluation"
+              stretchH="all"
+              autoColumnSize={{ useHeaders: true }}
+              manualColumnResize
+              manualRowResize
+              colWidths="auto"
+              wordWrap
+              cells={(row, col) => {
+                if (row === 0 && col === 0) return { className: "excel-title-cell" };
+                if (row === 0) return { className: "excel-header-row" };
+                if (col === 0) return { className: "excel-title-col" };
+                return {};
+              }}
+              afterChange={(changes, source) => {
+                if (!changes || source === "loadData") return;
 
-            queueUpdates(patches);
-          }}
-        />
+                const patches = changes.map(([row, col, oldVal, newVal]) => ({
+                  r: row + 1,
+                  c: col + 1,
+                  v: newVal ?? "",
+                }));
+
+                queueUpdates(patches);
+              }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
