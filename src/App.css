@@ -110,3 +110,42 @@ body {
   font-weight: bold;
   background: #f9f9f9;
 }
+
+/* ---------------- Methodology page ---------------- */
+
+.method-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.method-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+.method-subtitle {
+  max-width: 700px;
+  margin: 0 auto;
+  color: #555;
+}
+
+.method-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.method-card h2 {
+  margin-bottom: 10px;
+  color: #2f4f2f;
+}
+
+.method-formula {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: #f3f6f3;
+  border-left: 4px solid #6f8f6b;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 0.95rem;
+}
