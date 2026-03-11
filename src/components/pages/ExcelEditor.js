@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HotTable } from "@handsontable/react";
-import Handsontable from "handsontable";
 
 // Handsontable CSS (must be at top)
 import "handsontable/dist/handsontable.min.css";
