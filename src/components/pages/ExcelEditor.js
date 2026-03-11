@@ -5,7 +5,7 @@ import { HotTable } from "@handsontable/react";
 import "handsontable/dist/handsontable.min.css";
 import "handsontable/dist/handsontable.full.min.css";
 
-// Your custom overrides
+// Custom overrides
 import "./ExcelEditor.css";
 
 const API = "https://ecopi-backend.onrender.com";
@@ -14,38 +14,39 @@ export default function ExcelEditor() {
   const [sheets, setSheets] = useState([]);
   const [sheet, setSheet] = useState("");
   const [data, setData] = useState([[]]);
+
+  // Pending changes batching
   const pending = useRef([]);
   const timer = useRef(null);
-
   const sheetRef = useRef(sheet);
+
+  // Keep ref updated for async fetches
   useEffect(() => {
     sheetRef.current = sheet;
   }, [sheet]);
 
-  // Fetch sheet list once
+  // Fetch sheets list once
   useEffect(() => {
     fetch(`${API}/excel/sheets`)
-      .then((r) => r.json())
-      .then((j) => {
-        const list = j.sheets || [];
+      .then((res) => res.json())
+      .then((json) => {
+        const list = json.sheets || [];
         setSheets(list);
         if (list.length > 0) setSheet(list[0]);
       })
       .catch(console.error);
   }, []);
 
-  // Fetch sheet data when sheet changes
+  // Fetch sheet data whenever sheet changes
   useEffect(() => {
-    if (!sheet) {
-      setData([[]]); // fallback empty table
-      return;
-    }
+    if (!sheet) return setData([[]]);
 
     fetch(`${API}/excel/sheet/${encodeURIComponent(sheet)}?max_rows=200&max_cols=50`)
-      .then((r) => r.json())
-      .then((j) => setData(j.rows?.length ? j.rows : [[]]))
+      .then((res) => res.json())
+      .then((json) => setData(json.rows?.length ? json.rows : [[]]))
       .catch(console.error);
 
+    // Reset batching
     pending.current = [];
     if (timer.current) {
       clearTimeout(timer.current);
@@ -53,9 +54,10 @@ export default function ExcelEditor() {
     }
   }, [sheet]);
 
-  // Batch updates to server
+  // Queue updates to send to backend in batches
   const queueUpdates = (changes) => {
     pending.current.push(...changes);
+
     if (timer.current) return;
 
     timer.current = setTimeout(async () => {
@@ -97,9 +99,7 @@ export default function ExcelEditor() {
             onChange={(e) => setSheet(e.target.value)}
           >
             {sheets.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
+              <option key={s} value={s}>{s}</option>
             ))}
           </select>
         </div>
@@ -107,7 +107,7 @@ export default function ExcelEditor() {
 
       <div className="excel-table-wrap">
         <HotTable
-          data={data || [[]]} // ensure data is always array of arrays
+          data={data || [[]]} // always fallback to empty array
           rowHeaders
           colHeaders
           width="100%"
@@ -117,7 +117,7 @@ export default function ExcelEditor() {
           autoColumnSize={{ useHeaders: true }}
           manualColumnResize
           manualRowResize
-          colWidths={160}
+          colWidths="auto"
           wordWrap
           cells={(row, col) => {
             if (row === 0 && col === 0) return { className: "excel-title-cell" };
