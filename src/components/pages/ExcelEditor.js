@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HotTable } from "@handsontable/react";
+import Handsontable from "handsontable";
 
+// Handsontable CSS (must be at top)
 import "handsontable/dist/handsontable.min.css";
-import "handsontable/dist/handsontable.full.min.css"; 
+import "handsontable/dist/handsontable.full.min.css";
 
 // Your custom overrides
 import "./ExcelEditor.css";
@@ -16,29 +18,33 @@ export default function ExcelEditor() {
   const pending = useRef([]);
   const timer = useRef(null);
 
-  const sheetRef = useRef("");
+  const sheetRef = useRef(sheet);
   useEffect(() => {
     sheetRef.current = sheet;
   }, [sheet]);
 
-  // Fetch sheet list
+  // Fetch sheet list once
   useEffect(() => {
     fetch(`${API}/excel/sheets`)
       .then((r) => r.json())
       .then((j) => {
-        setSheets(j.sheets || []);
-        if (j.sheets?.length) setSheet(j.sheets[0]);
+        const list = j.sheets || [];
+        setSheets(list);
+        if (list.length > 0) setSheet(list[0]);
       })
       .catch(console.error);
   }, []);
 
   // Fetch sheet data when sheet changes
   useEffect(() => {
-    if (!sheet) return;
+    if (!sheet) {
+      setData([[]]); // fallback empty table
+      return;
+    }
 
     fetch(`${API}/excel/sheet/${encodeURIComponent(sheet)}?max_rows=200&max_cols=50`)
       .then((r) => r.json())
-      .then((j) => setData(j.rows || [[]]))
+      .then((j) => setData(j.rows?.length ? j.rows : [[]]))
       .catch(console.error);
 
     pending.current = [];
@@ -48,11 +54,11 @@ export default function ExcelEditor() {
     }
   }, [sheet]);
 
-  // Queue updates to send in batches
-  function queueUpdates(changes) {
+  // Batch updates to server
+  const queueUpdates = (changes) => {
     pending.current.push(...changes);
-
     if (timer.current) return;
+
     timer.current = setTimeout(async () => {
       const batch = pending.current.splice(0, 200);
       timer.current = null;
@@ -60,21 +66,25 @@ export default function ExcelEditor() {
 
       const currentSheet = sheetRef.current;
 
-      await fetch(`${API}/excel/update_cells`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sheet: currentSheet,
-          updates: batch.map((p) => ({
+      try {
+        await fetch(`${API}/excel/update_cells`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
             sheet: currentSheet,
-            row: p.r,
-            col: p.c,
-            value: p.v,
-          })),
-        }),
-      });
+            updates: batch.map((p) => ({
+              sheet: currentSheet,
+              row: p.r,
+              col: p.c,
+              value: p.v,
+            })),
+          }),
+        });
+      } catch (err) {
+        console.error("Failed to update cells:", err);
+      }
     }, 400);
-  }
+  };
 
   return (
     <div className="excelPage">
@@ -98,18 +108,18 @@ export default function ExcelEditor() {
 
       <div className="excel-table-wrap">
         <HotTable
-          data={data}
-          rowHeaders={true}
-          colHeaders={true}
+          data={data || [[]]} // ensure data is always array of arrays
+          rowHeaders
+          colHeaders
           width="100%"
           height="75vh"
           licenseKey="non-commercial-and-evaluation"
           stretchH="all"
           autoColumnSize={{ useHeaders: true }}
-          manualColumnResize={true}
-          manualRowResize={true}
+          manualColumnResize
+          manualRowResize
           colWidths={160}
-          wordWrap={true}
+          wordWrap
           cells={(row, col) => {
             if (row === 0 && col === 0) return { className: "excel-title-cell" };
             if (row === 0) return { className: "excel-header-row" };
