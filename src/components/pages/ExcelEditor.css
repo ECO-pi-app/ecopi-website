@@ -1,7 +1,6 @@
 .excelPage {
   padding: 18px;
   width: 100%;
-  box-sizing: border-box;
   overflow-x: auto;
 }
 
@@ -23,15 +22,6 @@
 .excelControls select {
   padding: 6px 10px;
   border-radius: 8px;
-}
-
-.excel-table-wrap {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.handsontable {
-  width: 100% !important;
 }
 
 .handsontable td.excel-header-row {

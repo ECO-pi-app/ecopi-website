@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HotTable } from "@handsontable/react";
 
-// Only the main Handsontable CSS is needed now
-import "handsontable/dist/handsontable.full.min.css";
+import "handsontable/dist/handsontable.min.css";
+import "handsontable/dist/handsontable.full.min.css"; 
 
 // Your custom overrides
 import "./ExcelEditor.css";
